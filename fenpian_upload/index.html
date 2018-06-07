@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>WebUploader test units.</title>
+  <link rel="stylesheet" type="text/css" href="./webuploader.css">
+  <script type="text/javascript" src="./jquery-1.10.1.min.js"></script>
+  <script type="text/javascript" src="webuploader.js"></script>
+  
+</head>
+<body>
+<div id="uploader" class="wu-example">
+  <!--用来存放文件信息-->
+  <div id="thelist" class="uploader-list"></div>
+  <div class="btns">
+    <div id="picker">选择文件</div>
+    <button id="ctlBtn" class="btn btn-default">开始上传   </button>
+  </div>
+</div>
+<script type="text/javascript">
+jQuery(function() {
+  var $list = $('#thelist'),
+  $btn = $('#ctlBtn'),
+  state = 'pending',
+  uploader;
+  uploader = WebUploader.create({
+      // 不压缩image
+      resize: false,
+      // swf文件路径
+      swf: 'uploader.swf',
+      // 文件接收服务端。
+      server: 'b.php',
+      // 选择文件的按钮。可选。
+      // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+      pick: '#picker',
+      chunked: true,
+      chunkSize: 2 * 1024 * 1024,
+      auto: true,
+      accept: {
+          title: 'Images',
+          // extensions: 'gif,jpg,jpeg,bmp,png',
+          // mimeTypes: 'image/*'
+      }
+  })
+  uploader.on('fileQueued',function(file){
+      uploader.makeThumb( file, function( error, ret ) {
+          if ( error ) {
+              console.log(error)
+          } else {
+            console.log(ret)
+          }
+      });
+  })
+})
+</script>
+</body>
+</html>

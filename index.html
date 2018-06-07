@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>WebUploader演示</title>
+    <link rel="stylesheet" type="text/css" href="css/cropper.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <style type="text/css">
+    	.preview-lg {
+		  height: 16rem;
+		  width: 16rem;
+		  overflow: hidden;
+		  margin: 0 auto;
+		}
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="container">
+            <!--头部，相册选择和格式选择-->
+
+            <div id="uploader">
+                <div class="queueList">
+                    <div id="dndArea" class="placeholder">
+                        <div id="filePicker"></div>
+                        <p>或将照片拖到这里，单次最多可选300张</p>
+                    </div>
+                </div>
+                <div class="statusBar" style="display:none;">
+                    <div class="progress">
+                        <span class="text">0%</span>
+                        <span class="percentage"></span>
+                    </div><div class="info"></div>
+                    <div class="btns">
+                        <div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: none;">
+    	<div class="box">
+			<img id="image" src="images/mm_case_01.jpg">
+		</div>
+		<div class="pre-img preview-lg"></div>
+		<button id="getCroppedCanvas">get</button>
+		<div class="modal-body"></div>
+		<a class="btn btn-primary" id="download" href="javascript:void(0);" download="cropped.jpg">Download</a>
+    </div>
+	<script type="text/javascript" src="js/jquery.js"></script>
+    <script src="js/cropper.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="js/webuploader.js"></script>
+    <script type="text/javascript" src="js/upload.js"></script>
+    <script type="text/javascript">
+    	
+    	$('#image').cropper({
+	        aspectRatio: 16 /16,
+	        viewMode:1,
+	        preview:'.pre-img',
+	        crop: function (e) {
+	        }
+	    });
+	    $("#getCroppedCanvas").on("click", function () {
+//	        console.log($('#image').cropper('getCroppedCanvas'));
+	        var cas=$('#image').cropper('getCroppedCanvas');
+//	        console.log(cas)
+	        var base64url=cas.toDataURL('image/jpeg');
+	        cas.toBlob(function (e) {
+//	            console.log(e);  //生成Blob的图片格式
+	        })
+//	        console.log(base64url); //生成base64图片的格式
+	        $('.modal-body').html(cas)  //在body显示出canvas元素
+	        $('#download').attr('href',base64url)
+    	})
+	    
+    </script>
+</body>
+</html>
