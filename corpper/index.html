@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/cropper.css"/>
+    <style type="text/css">
+    	.preview-lg {
+		  height: 16rem;
+		  width: 16rem;
+		  overflow: hidden;
+		  margin: 0 auto;
+		}
+    </style>
+</head>
+<body>
+    <div style="">
+    	<div class="box">
+			<img id="image" src="images/mm_case_01.jpg">
+		</div>
+		<div class="pre-img preview-lg"></div>
+		<button id="getCroppedCanvas">get</button>
+		<div class="modal-body"></div>
+		<a class="btn btn-primary" id="download" href="javascript:void(0);" download="cropped.jpg">Download</a>
+    </div>
+	<script type="text/javascript" src="js/jquery.js"></script>
+    <script src="js/cropper.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+    	
+    	$('#image').cropper({
+	        aspectRatio: 16 /16,
+	        viewMode:1,
+	        preview:'.pre-img',
+	        crop: function (e) {
+	        }
+	    });
+	    $("#getCroppedCanvas").on("click", function () {
+	        var cas=$('#image').cropper('getCroppedCanvas');
+	        var base64url=cas.toDataURL('image/jpeg');
+	        $('.modal-body').html(cas)  //在body显示出canvas元素
+	        $('#download').attr('href',base64url)
+    	})
+	    
+    </script>
+</body>
+</html>
